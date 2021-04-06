@@ -1,0 +1,44 @@
+Class {
+	#name : #Topico,
+	#superclass : #Object,
+	#instVars : [
+		'nombre',
+		'descripcion',
+		'preguntas'
+	],
+	#category : #'OO2-CuOOra'
+}
+
+{ #category : #'as yet unclassified' }
+Topico class >> nombre: unNombre descripcion: unaDescripcion [ 
+^(self new) nombre: unNombre descripcion: unaDescripcion 
+]
+
+{ #category : #accessing }
+Topico >> descripcion [
+	^ descripcion
+]
+
+{ #category : #'add/remove' }
+Topico >> eliminarPregunta: unaPregunta [
+ (preguntas includes: unaPregunta ) ifTrue: [ preguntas remove: unaPregunta  ] ifFalse: [ ^Error signal  ]
+]
+
+{ #category : #accessing }
+Topico >> nombre [
+	^ nombre
+]
+
+{ #category : #initialize }
+Topico >> nombre: unNombre descripcion: unaDescripcion [
+nombre:= unNombre .
+descripcion := unaDescripcion .
+preguntas:= OrderedCollection new.
+^self
+
+]
+
+{ #category : #accessing }
+Topico >> preguntas [
+	^ preguntas
+]
