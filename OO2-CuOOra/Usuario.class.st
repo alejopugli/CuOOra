@@ -16,7 +16,12 @@ Usuario class >> nombre: unNombre contraseña: unaContraseña [
 ^(self new) nombre: unNombre contraseña: unaContraseña 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'adding item' }
+Usuario >> followUsuario: unUsuario [
+	(seguidos includes:  unUsuario ) ifTrue: [ ^Error signal ] ifFalse:[seguidos add:[ unUsuario]] 
+]
+
+{ #category : #initalize }
 Usuario >> nombre: unNombre contraseña: unaContraseña [ 
 nombre:= unNombre.
 contraseña := unaContraseña .

@@ -12,6 +12,11 @@ Valoracion class >> new: unValor [
 ^(self new) new:unValor
 ]
 
+{ #category : #'changing state' }
+Valoracion >> cambiarValoracion [
+valor := valor *(-1)
+]
+
 { #category : #'instance creation' }
 Valoracion >> new: unValor [ 
 valor:= unValor.

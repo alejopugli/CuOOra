@@ -13,7 +13,7 @@ Respuesta class >> new: unaDescripcion autor: unAutor [
 ^(self new) new: unaDescripcion autor: unAutor 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'add/remove' }
 Respuesta >> eliminarme [
 	valoraciones removeAll.
 	

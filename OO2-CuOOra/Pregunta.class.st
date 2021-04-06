@@ -3,17 +3,26 @@ Class {
 	#superclass : #Respuesta,
 	#instVars : [
 		'topicos',
-		'respuestas'
+		'respuestas',
+		'titulo'
 	],
 	#category : #'OO2-CuOOra'
 }
 
 { #category : #'instance creation' }
-Pregunta class >> new: unaDescripcion autor: unAutor topicos: unosTopicos [
-^(self new) new: unaDescripcion autor: unAutor topicos: unosTopicos 
+Pregunta class >> new: unTitulo descripcion: unaDescripcion autor: unAutor topicos: unosTopicos [
+	^ self new new: unTitulo descripcion: unaDescripcion autor: unAutor topicos: unosTopicos
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'adding item' }
+Pregunta >> agregarRespuesta: unString autor: unUsuario [
+	|respuesta|
+	respuesta:=Respuesta new: unString autor: unUsuario.
+	respuestas add: respuesta.
+	^respuesta 
+]
+
+{ #category : #'add/remove' }
 Pregunta >> eliminarme [
 	respuestas do:[:each | each eliminarme ].
 	topicos do: [ :each | each eliminarPregunta: self ].
@@ -21,10 +30,11 @@ Pregunta >> eliminarme [
 ]
 
 { #category : #'instance creation' }
-Pregunta >> new: unaDescripcion autor: unAutor topicos: unosTopicos [
+Pregunta >> new: unTitulo descripcion: unaDescripcion autor: unAutor topicos: unosTopicos [
 	self new: unaDescripcion autor: unAutor.
+	titulo:= unTitulo .
 	topicos := unosTopicos.
-	respuestas:= OrderedCollection new.
+	respuestas := OrderedCollection new.
 	^ self
 ]
 
