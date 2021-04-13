@@ -6,7 +6,7 @@ Class {
 		'respuestas',
 		'titulo'
 	],
-	#category : #'OO2-CuOOra'
+	#category : #'OO2-CuOOra-Model'
 }
 
 { #category : #'instance creation' }
@@ -16,17 +16,14 @@ Pregunta class >> new: unTitulo descripcion: unaDescripcion autor: unAutor topic
 
 { #category : #'adding item' }
 Pregunta >> agregarRespuesta: unString autor: unUsuario [
-	|respuesta|
-	respuesta:=Respuesta new: unString autor: unUsuario.
-	respuestas add: respuesta.
-	^respuesta 
+	^ respuestas add: (Respuesta new: unString autor: unUsuario )
 ]
 
 { #category : #'add/remove' }
 Pregunta >> eliminarme [
-	respuestas do:[:each | each eliminarme ].
-	topicos do: [ :each | each eliminarPregunta: self ].
-	
+	respuestas do: [ :each | each eliminarme ].
+	respuestas removeAll.
+	topicos do: [ :each | each eliminarPregunta: self ]
 ]
 
 { #category : #'instance creation' }
@@ -44,11 +41,16 @@ Pregunta >> respuestas [
 ]
 
 { #category : #accessing }
-Pregunta >> respuestas: anObject [
-	respuestas := anObject
+Pregunta >> titulo [
+	^ titulo
 ]
 
 { #category : #accessing }
 Pregunta >> topicos [
 	^ topicos
+]
+
+{ #category : #accessing }
+Pregunta >> topicos: anObject [
+	topicos := anObject
 ]

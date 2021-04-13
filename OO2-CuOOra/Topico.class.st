@@ -6,7 +6,7 @@ Class {
 		'descripcion',
 		'preguntas'
 	],
-	#category : #'OO2-CuOOra'
+	#category : #'OO2-CuOOra-Model'
 }
 
 { #category : #'as yet unclassified' }

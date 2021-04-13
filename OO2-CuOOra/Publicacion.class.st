@@ -5,7 +5,7 @@ Class {
 		'fechaYHora',
 		'autor'
 	],
-	#category : #'OO2-CuOOra'
+	#category : #'OO2-CuOOra-Model'
 }
 
 { #category : #'instance creation' }
@@ -16,6 +16,11 @@ Publicacion class >> new: autor [
 { #category : #accessing }
 Publicacion >> autor [
 	^ autor
+]
+
+{ #category : #accessing }
+Publicacion >> fechaYHora [
+	^ fechaYHora
 ]
 
 { #category : #'instance creation' }

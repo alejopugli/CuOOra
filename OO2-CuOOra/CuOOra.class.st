@@ -6,16 +6,14 @@ Class {
 		'preguntas',
 		'topicos'
 	],
-	#category : #'OO2-CuOOra'
+	#category : #'OO2-CuOOra-Model'
 }
 
 { #category : #'adding item' }
 CuOOra >> agregarTopico: nombre descripcion: descripcion [
-	usuarios
-		detect: [ :each | each nombre = nombre ]
-		ifFound: [ ^ Error signal ]
-		ifNone: [ usuarios add: [ Topico nombre: nombre descripcion: descripcion  ] ].
-	^ self
+	(topicos anySatisfy: [ :each | each nombre = nombre ])
+		ifTrue: [ ^ Error signal ]
+		ifFalse: [ ^ topicos add: (Topico nombre: nombre descripcion: descripcion) ]
 ]
 
 { #category : #accessing }
@@ -36,14 +34,12 @@ CuOOra >> calcularPuntaje: unUsuario [
 
 { #category : #'adding item' }
 CuOOra >> crearPregunta: unString descripcion: unaDescripcion autor: unUsuario topicos: unosTopicos [
-	| pregunta |
-	pregunta := Pregunta
-		new: unString
-		descripcion: unaDescripcion
-		autor: unUsuario
-		topicos: unosTopicos.
-	preguntas add: [ pregunta ]
-	.^pregunta.
+	^ preguntas
+		add: (Pregunta
+				new: unString
+				descripcion: unaDescripcion
+				autor: unUsuario
+				topicos: unosTopicos) 
 ]
 
 { #category : #'adding item' }
@@ -60,6 +56,19 @@ CuOOra >> eliminarPregunta: unaPregunta [
 		ifFalse: [ ^ Error signal ]
 ]
 
+{ #category : #initialization }
+CuOOra >> initialize [ 
+usuarios:= OrderedCollection new.
+ preguntas:= OrderedCollection new.
+ topicos:= OrderedCollection new.
+^self
+]
+
+{ #category : #accessing }
+CuOOra >> preguntas [
+	^ preguntas
+]
+
 { #category : #'adding item' }
 CuOOra >> preguntasPorTopico: unTopico [
 	^unTopico preguntas
@@ -72,7 +81,24 @@ CuOOra >> preguntasUsuario: unUsuario [
 ]
 
 { #category : #'adding item' }
-CuOOra >> registrarUsuario: nombre contraseña: contraseña [ 
-usuarios detect: [ :each| each nombre = nombre ] ifFound: [ ^Error signal ]  ifNone: [ usuarios add: [ Usuario nombre: nombre contraseña: contraseña  ] ].
-^self.
+CuOOra >> registrarUsuario: unNombre contraseña: unaContraseña [
+	(usuarios anySatisfy: [ :each | each nombre = unNombre ])
+		ifTrue: [ ^ Error signal ]
+		ifFalse:
+			[ ^ usuarios add: (Usuario nombre: unNombre contraseña: unaContraseña) ]
+]
+
+{ #category : #accessing }
+CuOOra >> topicos [
+	^ topicos
+]
+
+{ #category : #accessing }
+CuOOra >> usuarios [
+	^ usuarios
+]
+
+{ #category : #'as yet unclassified' }
+CuOOra >> valorarPublicacion: unaPublicacion usuario: unUsuario valor: unValor [
+^unaPublicacion agregarValoracion: unUsuario  valor: unValor. 
 ]
