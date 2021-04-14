@@ -23,3 +23,8 @@ self new: unUsuario.
 valor:= unValor.
 ^self.
 ]
+
+{ #category : #accessing }
+Valoracion >> valor [
+	^ valor
+]

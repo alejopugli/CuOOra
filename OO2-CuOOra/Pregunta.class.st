@@ -41,6 +41,11 @@ Pregunta >> respuestas [
 ]
 
 { #category : #accessing }
+Pregunta >> respuestasUsuario: unUsuario [
+	^ respuestas select: [ :each | each autor = unUsuario ]
+]
+
+{ #category : #accessing }
 Pregunta >> titulo [
 	^ titulo
 ]

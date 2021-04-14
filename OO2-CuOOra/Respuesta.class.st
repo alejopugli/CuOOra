@@ -25,6 +25,11 @@ valoraciones detect: [ :each| each autor = unUsuario ] ifFound: [ :valoracion | 
 ]
 
 { #category : #accessing }
+Respuesta >> calcularValoraciones [
+	^ valoraciones sumNumbers: [ :each | each valor ].
+]
+
+{ #category : #accessing }
 Respuesta >> descripcion [
 	^ descripcion
 ]

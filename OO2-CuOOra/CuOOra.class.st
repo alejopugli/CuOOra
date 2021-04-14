@@ -24,12 +24,11 @@ CuOOra >> buscarUsuario: unNombre [
 { #category : #calculations }
 CuOOra >> calcularPuntaje: unUsuario [
 	| p r |
-	p := preguntas select: [ :each | each autor = unUsuario ].
-	r := [ (preguntas reject: p) respuestas
-		select: [ :each | each autor = unUsuario ] ].
+	p := self preguntasUsuario: unUsuario.
+	r := self respuestasUsuario: unUsuario.
 	^ p size * 20 + (r size * 50)
-		+ (p sum: [ :each | each valoraciones valor ]) + (r
-		sum: [ :each | each valoraciones valor ])
+		+ (p sumNumbers: [ :each | each calcularValoraciones ])
+		+ (r sumNumbers: [ :each | each calcularValoraciones ])
 ]
 
 { #category : #'adding item' }
@@ -89,6 +88,13 @@ CuOOra >> registrarUsuario: unNombre contraseña: unaContraseña [
 ]
 
 { #category : #accessing }
+CuOOra >> respuestasUsuario: unUsuario [
+	^ ((preguntas reject: [ :each | each autor = unUsuario ])
+		flatCollect: [ :each | each respuestasUsuario: unUsuario ])
+	
+]
+
+{ #category : #accessing }
 CuOOra >> topicos [
 	^ topicos
 ]
@@ -98,7 +104,7 @@ CuOOra >> usuarios [
 	^ usuarios
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'adding item' }
 CuOOra >> valorarPublicacion: unaPublicacion usuario: unUsuario valor: unValor [
 ^unaPublicacion agregarValoracion: unUsuario  valor: unValor. 
 ]
