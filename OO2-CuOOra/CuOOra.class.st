@@ -73,6 +73,17 @@ CuOOra >> preguntasPorTopico: unTopico [
 	^unTopico preguntas
 ]
 
+{ #category : #'adding item' }
+CuOOra >> preguntasRelevantes: unUsuario [
+	| relevantes |
+	relevantes := unUsuario intereses
+		flatCollect: [ :each | self preguntasPorTopico: each ].
+	^ relevantes
+		addAll:
+			(unUsuario seguidos
+				flatCollect: [ :each | self preguntasUsuario: each ])
+]
+
 { #category : #accessing }
 CuOOra >> preguntasUsuario: unUsuario [
 

@@ -39,6 +39,11 @@ Usuario >> intereses [
 ]
 
 { #category : #accessing }
+Usuario >> intereses: anObject [
+	intereses := anObject
+]
+
+{ #category : #accessing }
 Usuario >> nombre [
 	^ nombre
 ]

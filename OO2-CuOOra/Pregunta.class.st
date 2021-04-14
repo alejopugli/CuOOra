@@ -29,8 +29,9 @@ Pregunta >> eliminarme [
 { #category : #'instance creation' }
 Pregunta >> new: unTitulo descripcion: unaDescripcion autor: unAutor topicos: unosTopicos [
 	self new: unaDescripcion autor: unAutor.
-	titulo:= unTitulo .
-	topicos := unosTopicos.
+	titulo := unTitulo.
+	topicos := OrderedCollection new.
+	topicos flatCollect:unosTopicos.
 	respuestas := OrderedCollection new.
 	^ self
 ]
