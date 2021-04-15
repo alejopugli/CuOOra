@@ -6,8 +6,22 @@ Class {
 		'preguntas',
 		'topicos'
 	],
+	#classInstVars : [
+		'soleInstance'
+	],
 	#category : #'OO2-CuOOra-Model'
 }
+
+{ #category : #accessing }
+CuOOra class >> clearSoleInstance [
+	soleInstance := nil.
+]
+
+{ #category : #accessing }
+CuOOra class >> soleInstance [
+	soleInstance ifNil: [ soleInstance := self new ].
+	^ soleInstance
+]
 
 { #category : #'adding item' }
 CuOOra >> agregarTopico: nombre descripcion: descripcion [
