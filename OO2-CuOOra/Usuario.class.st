@@ -16,6 +16,11 @@ Usuario class >> nombre: unNombre contraseña: unaContraseña [
 ^(self new) nombre: unNombre contraseña: unaContraseña 
 ]
 
+{ #category : #'as yet unclassified' }
+Usuario >> agregarInteres: unInteres [
+intereses add: unInteres .
+]
+
 { #category : #accessing }
 Usuario >> contraseña [
 	^ contraseña
