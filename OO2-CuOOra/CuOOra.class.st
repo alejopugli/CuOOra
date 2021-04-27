@@ -116,10 +116,10 @@ CuOOra >> preguntasUsuario: unUsuario [
 
 { #category : #'adding item' }
 CuOOra >> registrarUsuario: unNombre contraseña: unaContraseña [
-	(usuarios anySatisfy: [ :each | each nombre = unNombre ])
-		ifTrue: [ ^ Error signal ]
-		ifFalse:
+	(self validarNombre: unNombre Contraseña: unaContraseña )
+		ifTrue:
 			[ ^ usuarios add: (Usuario nombre: unNombre contraseña: unaContraseña) ]
+		ifFalse: [ ^ Error signal ]
 ]
 
 { #category : #accessing }
@@ -144,6 +144,12 @@ CuOOra >> usuario: unNombre contraseña: unaContraseña [
 { #category : #accessing }
 CuOOra >> usuarios [
 	^ usuarios
+]
+
+{ #category : #'adding item' }
+CuOOra >> validarNombre: unNombre Contraseña: unaContraseña [
+	^ (usuarios anySatisfy: [ :each | each nombre = unNombre ]) not
+		and: unNombre isNotEmpty
 ]
 
 { #category : #'adding item' }
