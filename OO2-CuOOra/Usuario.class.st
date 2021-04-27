@@ -63,6 +63,19 @@ Usuario >> nombre: unNombre contraseña: unaContraseña [
 	^ self
 ]
 
+{ #category : #'as yet unclassified' }
+Usuario >> preguntasRelevantes [
+	"relevantes := unUsuario intereses
+		flatCollect: [ :each | self preguntasPorTopico: each ].
+	^ relevantes
+		flatCollect:
+			(unUsuario seguidos
+				flatCollect: [ :each | self preguntasUsuario: each ])"
+^self intereses flatCollectAsSet: [:each| each preguntas].
+
+
+]
+
 { #category : #accessing }
 Usuario >> seguidos [
 	^ seguidos

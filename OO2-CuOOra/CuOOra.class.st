@@ -24,6 +24,11 @@ CuOOra class >> soleInstance [
 ]
 
 { #category : #'adding item' }
+CuOOra >> agregarPregunta: pregunta [.
+	preguntas add: pregunta.
+]
+
+{ #category : #'adding item' }
 CuOOra >> agregarTopico: nombre descripcion: descripcion [
 	(topicos anySatisfy: [ :each | each nombre = nombre ])
 		ifTrue: [ ^ Error signal ]
@@ -47,12 +52,15 @@ CuOOra >> calcularPuntaje: unUsuario [
 
 { #category : #'adding item' }
 CuOOra >> crearPregunta: unString descripcion: unaDescripcion autor: unUsuario topicos: unosTopicos [
-	^ preguntas
-		add: (Pregunta
+	|pregunta| 
+	pregunta :=(Pregunta
 				new: unString
 				descripcion: unaDescripcion
 				autor: unUsuario
-				topicos: unosTopicos) 
+				topicos: unosTopicos). 
+	unosTopicos agregarPregunta: pregunta.
+	self agregarPregunta: pregunta.
+	^pregunta 
 ]
 
 { #category : #'adding item' }
@@ -89,13 +97,16 @@ CuOOra >> preguntasPorTopico: unTopico [
 
 { #category : #'adding item' }
 CuOOra >> preguntasRelevantes: unUsuario [
-	| relevantes |
-	relevantes := unUsuario intereses
-		flatCollect: [ :each | self preguntasPorTopico: each ].
-	^ relevantes
-		addAll:
-			(unUsuario seguidos
-				flatCollect: [ :each | self preguntasUsuario: each ])
+	| flatCollect |
+	flatCollect := Set withAll: unUsuario preguntasRelevantes.
+	flatCollect addAll: (self preguntasRelevantesSeguidos: unUsuario).
+	^ flatCollect
+]
+
+{ #category : #'adding item' }
+CuOOra >> preguntasRelevantesSeguidos: unUsuario [
+^unUsuario seguidos
+				flatCollect: [ :each | self preguntasUsuario: each ]
 ]
 
 { #category : #accessing }

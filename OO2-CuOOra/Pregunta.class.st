@@ -30,8 +30,7 @@ Pregunta >> eliminarme [
 Pregunta >> new: unTitulo descripcion: unaDescripcion autor: unAutor topicos: unosTopicos [
 	self new: unaDescripcion autor: unAutor.
 	titulo := unTitulo.
-	topicos := OrderedCollection new.
-	topicos flatCollect:unosTopicos.
+	self topicos: unosTopicos .
 	respuestas := OrderedCollection new.
 	^ self
 ]
@@ -57,6 +56,8 @@ Pregunta >> topicos [
 ]
 
 { #category : #accessing }
-Pregunta >> topicos: anObject [
-	topicos := anObject
+Pregunta >> topicos: unosTopicos [
+	topicos := unosTopicos isCollection
+		ifTrue: [ OrderedCollection withAll: unosTopicos ]
+		ifFalse: [ OrderedCollection with: unosTopicos ]
 ]

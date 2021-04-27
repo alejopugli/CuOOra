@@ -14,6 +14,11 @@ Topico class >> nombre: unNombre descripcion: unaDescripcion [
 ^(self new) nombre: unNombre descripcion: unaDescripcion 
 ]
 
+{ #category : #'as yet unclassified' }
+Topico >> agregarPregunta: unaPregunta [
+preguntas add: unaPregunta .
+]
+
 { #category : #accessing }
 Topico >> descripcion [
 	^ descripcion
@@ -31,11 +36,10 @@ Topico >> nombre [
 
 { #category : #initialize }
 Topico >> nombre: unNombre descripcion: unaDescripcion [
-nombre:= unNombre .
-descripcion := unaDescripcion .
-preguntas:= OrderedCollection new.
-^self
-
+	nombre := unNombre.
+	descripcion := unaDescripcion.
+	preguntas := Set new.
+	^ self
 ]
 
 { #category : #accessing }
