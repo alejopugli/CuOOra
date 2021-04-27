@@ -24,7 +24,7 @@ CuOOra class >> soleInstance [
 ]
 
 { #category : #'adding item' }
-CuOOra >> agregarPregunta: pregunta [.
+CuOOra >> agregarPregunta: pregunta [
 	preguntas add: pregunta.
 ]
 
@@ -45,22 +45,21 @@ CuOOra >> calcularPuntaje: unUsuario [
 	| p r |
 	p := self preguntasUsuario: unUsuario.
 	r := self respuestasUsuario: unUsuario.
-	^ p size * 20 + (r size * 50)
-		+ (p sumNumbers: [ :each | each calcularValoraciones ])
-		+ (r sumNumbers: [ :each | each calcularValoraciones ])
+	^(p sumNumbers: [ :each | each calcularValor ])
+		+(r sumNumbers: [ :each | each calcularValor ])
 ]
 
 { #category : #'adding item' }
 CuOOra >> crearPregunta: unString descripcion: unaDescripcion autor: unUsuario topicos: unosTopicos [
-	|pregunta| 
-	pregunta :=(Pregunta
-				new: unString
-				descripcion: unaDescripcion
-				autor: unUsuario
-				topicos: unosTopicos). 
-	unosTopicos agregarPregunta: pregunta.
+	| pregunta |
+	pregunta := Pregunta
+		titulo: unString
+		descripcion: unaDescripcion
+		autor: unUsuario
+		topicos: unosTopicos.
+	unosTopicos do: [ :each | each agregarPregunta: pregunta ].
 	self agregarPregunta: pregunta.
-	^pregunta 
+	^ pregunta
 ]
 
 { #category : #'adding item' }
@@ -135,7 +134,7 @@ CuOOra >> topicos [
 	^ topicos
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'adding item' }
 CuOOra >> usuario: unNombre contraseña: unaContraseña [
 	^ usuarios
 		detect: [ :each | each nombre = unNombre & (each contraseña = unaContraseña) ]
