@@ -20,7 +20,7 @@ Accesso >> contraseña: anObject [
 
 { #category : #model }
 Accesso >> cuoora [
-^CuOOra soleInstance
+	^ CuOOra soleInstance
 ]
 
 { #category : #private }
@@ -37,7 +37,7 @@ Accesso >> renderButtonsOn: aCanvas [
 
 { #category : #model }
 Accesso >> renderContentOn: aCanvas [
-	aCanvas
+	aCanvas heading: 'CuOOra'.aCanvas
 		form: [ self renderInputElementsOn: aCanvas.
 			self renderButtonsOn: aCanvas ]
 ]
