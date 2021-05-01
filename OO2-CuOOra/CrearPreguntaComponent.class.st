@@ -9,6 +9,11 @@ Class {
 	#category : #'OO2-CuOOra-Ui'
 }
 
+{ #category : #rendering }
+CrearPreguntaComponent >> datoIncorrecto [ 
+ self call: RenderDatoIncorrecto new
+]
+
 { #category : #accessing }
 CrearPreguntaComponent >> descripcion [
 	^ descripcion
@@ -21,16 +26,19 @@ CrearPreguntaComponent >> descripcion: anObject [
 
 { #category : #rendering }
 CrearPreguntaComponent >> publicar [
-	self session cuoora
-		crearPregunta: titulo
-		descripcion: descripcion
-		autor: self session usuario
-		topicos: topicos
-	.self answer 
+	self validarDatos
+		ifTrue: [ self session cuoora
+				crearPregunta: titulo
+				descripcion: descripcion
+				autor: self session usuario
+				topicos: topicos.
+			self answer ]
+		ifFalse: [self datoIncorrecto ]
 ]
 
 { #category : #rendering }
 CrearPreguntaComponent >> renderContentOn: aCanvas [
+	aCanvas heading: 'Crear Pregunta'.
 	aCanvas
 		form: [ aCanvas label with: 'Titulo '.
 			aCanvas textInput on: #titulo of: self.
@@ -40,12 +48,26 @@ CrearPreguntaComponent >> renderContentOn: aCanvas [
 				columns: 80;
 				rows: 3.
 			aCanvas break.
-			aCanvas label with: 'Topicos (separados por comas) '.
-			aCanvas textInput on: #topicos of: self.
+			aCanvas label with: 'topico/s '.
+			self seleccionarTopico: aCanvas.
 			aCanvas break.
 			aCanvas submitButton
 				callback: [ self publicar ];
-				with: 'Publicar' ]
+				with: 'Publicar' ].
+	self renderVolverButtonOn: aCanvas
+]
+
+{ #category : #rendering }
+CrearPreguntaComponent >> renderVolverButtonOn: aCanvas [
+	aCanvas
+		paragraph: [ aCanvas anchor
+				callback: [ self answer ];
+				with: [ aCanvas button with: 'Volver' ] ]
+]
+
+{ #category : #rendering }
+CrearPreguntaComponent >> seleccionarTopico: aCanvas [
+	aCanvas textInput on: #topicos of: self; with:''.
 ]
 
 { #category : #accessing }
@@ -65,6 +87,15 @@ CrearPreguntaComponent >> topicos [
 
 { #category : #accessing }
 CrearPreguntaComponent >> topicos: anObject [
-	anObject splitOn: ','.
-	topicos := anObject
+
+topicos := OrderedCollection new.
+	(anObject splitOn:',') do: [ :each | topicos add: (self session cuoora buscarTopico:  each) ]
+]
+
+{ #category : #rendering }
+CrearPreguntaComponent >> validarDatos [
+	titulo ='' ifTrue: [ ^ false ].
+	descripcion = '' ifTrue: [ ^ false ].
+	topicos ifNil: [ ^ false ].
+	^ true
 ]

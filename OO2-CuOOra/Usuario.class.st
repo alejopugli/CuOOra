@@ -17,8 +17,8 @@ Usuario class >> nombre: unNombre contraseña: unaContraseña [
 ]
 
 { #category : #'adding item' }
-Usuario >> agregarInteres: unInteres [
-intereses add: unInteres .
+Usuario >> agregarInteres: unTopico [
+	intereses add: unTopico
 ]
 
 { #category : #accessing }

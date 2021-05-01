@@ -1,3 +1,8 @@
+"
+| application |
+application := WAAdmin register: LogInComponent asApplicationAt: 'cuoora'.
+application sessionClass: SessionWithUsuario.
+"
 Class {
 	#name : #CuOOra,
 	#superclass : #Object,
@@ -35,9 +40,18 @@ CuOOra >> agregarTopico: nombre descripcion: descripcion [
 		ifFalse: [ ^ topicos add: (Topico nombre: nombre descripcion: descripcion) ]
 ]
 
+{ #category : #rendering }
+CuOOra >> buscarTopico: unNombre [
+	^topicos detect: [ :each | each nombre = unNombre ]
+]
+
 { #category : #accessing }
 CuOOra >> buscarUsuario: unNombre [
-^usuarios select: [ :each | each nombre asLowercase includesSubstring: unNombre asLowercase ]
+	unNombre
+		ifNil: [ ^ OrderedCollection new ]
+		ifNotNil: [ ^ usuarios
+				select:
+					[ :each | each nombre asLowercase includesSubstring: unNombre asLowercase ] ]
 ]
 
 { #category : #calculations }
@@ -69,19 +83,19 @@ CuOOra >> crearRespuesta: unaPregunta respuesta: unString autor: unUsuario [
 
 { #category : #'add/remove' }
 CuOOra >> eliminarPregunta: unaPregunta [
-	(preguntas
-		includes:  unaPregunta)
+	(preguntas includes: unaPregunta)
 		ifTrue: [ unaPregunta eliminarme.
 			preguntas remove: unaPregunta ]
 		ifFalse: [ ^ Error signal ]
 ]
 
 { #category : #initialization }
-CuOOra >> initialize [ 
-usuarios:= OrderedCollection new.
- preguntas:= OrderedCollection new.
- topicos:= OrderedCollection new.
-^self
+CuOOra >> initialize [
+	usuarios := OrderedCollection new.
+	preguntas := OrderedCollection new.
+	topicos := OrderedCollection new.
+	self setUp.
+	^ self
 ]
 
 { #category : #accessing }
@@ -91,7 +105,7 @@ CuOOra >> preguntas [
 
 { #category : #'adding item' }
 CuOOra >> preguntasPorTopico: unTopico [
-	^unTopico preguntas
+	^ unTopico preguntas
 ]
 
 { #category : #'adding item' }
@@ -110,8 +124,7 @@ CuOOra >> preguntasRelevantesSeguidos: unUsuario [
 
 { #category : #accessing }
 CuOOra >> preguntasUsuario: unUsuario [
-
-^preguntas select: [ :each | each autor = unUsuario  ]
+	^ (preguntas select: [ :each | each autor = unUsuario ])
 ]
 
 { #category : #'adding item' }
@@ -126,7 +139,42 @@ CuOOra >> registrarUsuario: unNombre contraseña: unaContraseña [
 CuOOra >> respuestasUsuario: unUsuario [
 	^ ((preguntas reject: [ :each | each autor = unUsuario ])
 		flatCollect: [ :each | each respuestasUsuario: unUsuario ])
-	
+]
+
+{ #category : #initialization }
+CuOOra >> setUp [
+	| juan pedro diego topics preguntaPedro preguntaDiego |
+	topics := OrderedCollection
+		with: (self agregarTopico: 'OO1' descripcion: 'Orientacion a objetos 1').
+	topics
+		add: (self agregarTopico: 'Test de unidad' descripcion: 'Unit Testing').
+	topics add: (self agregarTopico: 'Smalltalk' descripcion: '.st').
+	pedro := self
+		registrarUsuario: 'pedro@cuoora.com'
+		contraseña: 'pedro@cuoora.com'.
+	diego := self
+		registrarUsuario: 'diego@cuoora.com'
+		contraseña: 'diego@cuoora.com'.
+	juan := self
+		registrarUsuario: 'juan@cuoora.com'
+		contraseña: 'juan@cuoora.com'.
+	juan followUsuario: diego.
+	pedro followUsuario: juan.
+	preguntaPedro := self
+		crearPregunta: '¿Para qué sirve el método SetUp?'
+		descripcion: ''
+		autor: pedro
+		topicos: (topicos first: 2).
+	preguntaDiego := self
+		crearPregunta: '¿Qué significa #messageNotUnderstood?'
+		descripcion: ''
+		autor: diego
+		topicos: (topicos last: 2).
+	self crearRespuesta: preguntaPedro  respuesta:'Sirve para instanciar los objetos que son
+evaluados por el test en un único método y que se ejecute
+siempre antes de cada test.'  autor: diego.
+	self crearRespuesta: preguntaDiego  respuesta:'no encontró ningún método para ejecutar en respuesta. respuesta:  autor:'  autor: pedro. 
+	^ self
 ]
 
 { #category : #accessing }
@@ -149,7 +197,6 @@ CuOOra >> usuarios [
 { #category : #'adding item' }
 CuOOra >> validarNombre: unNombre Contraseña: unaContraseña [
 	^ (usuarios anySatisfy: [ :each | each nombre = unNombre ]) not
-		and: unNombre isNotEmpty
 ]
 
 { #category : #'adding item' }
