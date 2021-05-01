@@ -3944,7 +3944,7 @@
 											"top": 469,
 											"width": 323.83837890625,
 											"height": 13,
-											"text": "-fechaYHora: DateAndTime",
+											"text": "-creacion: DateAndTime",
 											"horizontalAlignment": 0
 										}
 									],
@@ -6923,7 +6923,7 @@
 							"_parent": {
 								"$ref": "AAAAAAF4hakHB7BDUq8="
 							},
-							"name": "fechaYHora",
+							"name": "creacion",
 							"visibility": "private",
 							"type": "DateAndTime"
 						}
