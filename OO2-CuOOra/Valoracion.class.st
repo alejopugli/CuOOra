@@ -1,15 +1,22 @@
 Class {
 	#name : #Valoracion,
-	#superclass : #Publicacion,
+	#superclass : #Object,
 	#instVars : [
-		'valor'
+		'valor',
+		'autor',
+		'fechaYHora'
 	],
 	#category : #'OO2-CuOOra-Model'
 }
 
 { #category : #'instance creation' }
-Valoracion class >> new: unValor autor: unUsuario [
-^ self new new: unValor autor: unUsuario .
+Valoracion class >> valor: unValor autor: unUsuario [
+	^ self new valor: unValor autor: unUsuario
+]
+
+{ #category : #accessing }
+Valoracion >> autor [
+	^ autor
 ]
 
 { #category : #'changing state' }
@@ -17,14 +24,20 @@ Valoracion >> cambiarValoracion [
 valor := valor *(-1)
 ]
 
-{ #category : #'instance creation' }
-Valoracion >> new: unValor autor: unUsuario [
-self new: unUsuario.
-valor:= unValor.
-^self.
+{ #category : #accessing }
+Valoracion >> fechaYHora [
+	^ fechaYHora
 ]
 
 { #category : #accessing }
 Valoracion >> valor [
 	^ valor
+]
+
+{ #category : #'instance creation' }
+Valoracion >> valor: unValor autor: unUsuario [
+	valor := unValor.
+	autor := unUsuario.
+	fechaYHora := DateAndTime  now.
+	^ self
 ]

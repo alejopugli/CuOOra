@@ -1,6 +1,6 @@
 Class {
 	#name : #Pregunta,
-	#superclass : #Respuesta,
+	#superclass : #Publicacion,
 	#instVars : [
 		'topicos',
 		'respuestas',
@@ -10,34 +10,36 @@ Class {
 }
 
 { #category : #'instance creation' }
-Pregunta class >> new: unTitulo descripcion: unaDescripcion autor: unAutor topicos: unosTopicos [
-	^ self new new: unTitulo descripcion: unaDescripcion autor: unAutor topicos: unosTopicos
+Pregunta class >> titulo: unTitulo descripcion: unaDescripcion autor: unAutor topicos: unosTopicos [
+	^ self new
+		titulo: unTitulo
+		descripcion: unaDescripcion
+		autor: unAutor
+		topicos: unosTopicos
 ]
 
 { #category : #'adding item' }
 Pregunta >> agregarRespuesta: unString autor: unUsuario [
-	^ respuestas add: (Respuesta new: unString autor: unUsuario )
+	^ respuestas add: (Respuesta descripcion: unString autor: unUsuario)
+]
+
+{ #category : #calculations }
+Pregunta >> calcularValor [ 
+^self calcularValoraciones + 20.
 ]
 
 { #category : #'add/remove' }
 Pregunta >> eliminarme [
+	super.
 	respuestas do: [ :each | each eliminarme ].
 	respuestas removeAll.
 	topicos do: [ :each | each eliminarPregunta: self ]
 ]
 
-{ #category : #'instance creation' }
-Pregunta >> new: unTitulo descripcion: unaDescripcion autor: unAutor topicos: unosTopicos [
-	self new: unaDescripcion autor: unAutor.
-	titulo := unTitulo.
-	self topicos: unosTopicos .
-	respuestas := OrderedCollection new.
-	^ self
-]
-
 { #category : #accessing }
 Pregunta >> respuestas [
 	^ respuestas
+		asSortedCollection: [ :uno :dos | uno calcularValoraciones > dos calcularValoraciones ]
 ]
 
 { #category : #accessing }
@@ -50,14 +52,16 @@ Pregunta >> titulo [
 	^ titulo
 ]
 
-{ #category : #accessing }
-Pregunta >> topicos [
-	^ topicos
+{ #category : #'instance creation' }
+Pregunta >> titulo: unTitulo descripcion: unaDescripcion autor: unAutor topicos: unosTopicos [
+	self descripcion: unaDescripcion autor: unAutor.
+	titulo := unTitulo.
+	topicos := unosTopicos.
+	respuestas := OrderedCollection new.
+	^ self
 ]
 
 { #category : #accessing }
-Pregunta >> topicos: unosTopicos [
-	topicos := unosTopicos isCollection
-		ifTrue: [ OrderedCollection withAll: unosTopicos ]
-		ifFalse: [ OrderedCollection with: unosTopicos ]
+Pregunta >> topicos [
+	^ topicos
 ]

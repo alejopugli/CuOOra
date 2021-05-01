@@ -14,7 +14,7 @@ Topico class >> nombre: unNombre descripcion: unaDescripcion [
 ^(self new) nombre: unNombre descripcion: unaDescripcion 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'add/remove' }
 Topico >> agregarPregunta: unaPregunta [
 preguntas add: unaPregunta .
 ]
